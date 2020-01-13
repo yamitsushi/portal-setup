@@ -7,12 +7,17 @@ IPTABLES='sudo /sbin/iptables'
 $IPTABLES -A POSTROUTING -t nat -o eth0 -j MASQUERADE
 sudo echo "1" > /proc/sys/net/ipv4/ip_forward
 
+# create a chain
 $IPTABLES -N internet -t mangle
 
+
+# send traffic to chain
 $IPTABLES -t mangle -A PREROUTING -i wlan0 -j internet
+# mark all traffic
 $IPTABLES -t mangle -A internet -j MARK --set-mark 99
 
+# redirect marked tcp traffic to portal
 $IPTABLES -t nat -A PREROUTING -m mark --mark 99 -p tcp --dport 80 -j DNAT --to-destination 10.0.0.1
-
+# drop all marked traffic
 $IPTABLES -t filter -A FORWARD -m mark --mark 99 -j DROP
 
