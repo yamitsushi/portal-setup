@@ -4,18 +4,15 @@ IPTABLES='sudo /sbin/iptables'
 
 
 # enable internet access
-# $IPTABLES -A POSTROUTING -t nat -o eth0 -j MASQUERADE
-# sudo echo "1" > /proc/sys/net/ipv4/ip_forward
+$IPTABLES -A POSTROUTING -t nat -o eth0 -j MASQUERADE
+sudo echo "1" > /proc/sys/net/ipv4/ip_forward
 
-# create chain
 $IPTABLES -N internet -t mangle
 
-# mark all connections
-$IPTABLES -t mangle -A PREROUTING -j internet
+$IPTABLES -t mangle -A PREROUTING -i wlan0 -j internet
 $IPTABLES -t mangle -A internet -j MARK --set-mark 99
 
-# redirect all marked tcp connections to captive portal
 $IPTABLES -t nat -A PREROUTING -m mark --mark 99 -p tcp --dport 80 -j DNAT --to-destination 10.0.0.1
 
-# dropping all marked connections
 $IPTABLES -t filter -A FORWARD -m mark --mark 99 -j DROP
+
