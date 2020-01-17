@@ -11,7 +11,7 @@ echo copying config
 cp etc /etc -r
 
 echo setting up rmtrack
-cp usr /usr
+cp usr /usr -r
 
 echo restarting services
 service dhcpcd restart

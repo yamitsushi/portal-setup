@@ -19,7 +19,7 @@ sudo iptables -t mangle -I internet -m mac --mac-source MAC-ADDRESS-HERE -j RETU
 ```
 - disable internet access
 ```
-sudo iptables -t mangle -D internet -m mac --mac-source 60:ab:67:ce:1b:70 -j RETURN
+sudo iptables -t mangle -D internet -m mac --mac-source MAC-ADDRESS-HERE -j RETURN
 ```
 - everytime you disable/enable internet access
 ```
