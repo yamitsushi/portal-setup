@@ -8,10 +8,10 @@ systemctl stop dnsmasq
 systemctl stop hostapd
 
 echo copying config
-cp etc /etc -r
+cp etc / -r
 
 echo setting up rmtrack
-cp usr /usr -r
+cp usr / -r
 
 echo restarting services
 service dhcpcd restart
